@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>To Do App</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+  </head>
+  <body>
+    <div class="list_area">
+      <h1>Work List</h1>
+      <h3>{{ today }}</h3>
+      <form action="/add" method="POST" class="from_area">
+        <input
+          type="text"
+          class="type"
+          name="task"
+          placeholder="  Add New Task"
+          required
+        />
+        <button type="submit">Add</button>
+      </form>
+    </div>
+
+    <div class="result_area">
+      <ol>
+        {% for task in tasks %}
+        <li>
+          <span class=" {{'completed' if task.done else ''}}">
+            {{ task.title_name }}
+          </span>
+          <div class="symbole">
+            <a href="/delete/{{loop.index0}}" class="delete"></a>
+            <a
+              href="/select/{{loop.index0}}" 
+              class="complete"
+              onclick="changeBg(this); return false;"
+              id="complete"
+            ></a>
+          </div>
+        </li>
+        {% endfor %}
+      </ol>
+    </div>
+    <script>
+      function changeBg(element) {
+        
+        let listItem = element.closest("li");
+        listItem.classList.toggle("clicked-bg");
+      }
+    </script>
+  </body>
+</html>
